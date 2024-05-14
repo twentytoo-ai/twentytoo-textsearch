@@ -3,6 +3,7 @@ namespace TwentyToo\TextSearch\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class TextSearch implements ObserverInterface
 {
@@ -12,14 +13,22 @@ class TextSearch implements ObserverInterface
     protected $request;
 
     /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
+    /**
      * Constructor
      *
      * @param \Magento\Framework\App\Request\Http $request
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\Framework\App\Request\Http $request
+        \Magento\Framework\App\Request\Http $request,
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->request = $request;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -30,6 +39,11 @@ class TextSearch implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
+        // Check if the module is enabled in configuration
+        if (!$this->scopeConfig->isSetFlag('textsearch/general/enabled')) {
+            return;
+        }
+
         // Check if the request is for a search
         $controller = $observer->getControllerAction();
         if ($controller->getRequest()->getFullActionName() == 'catalogsearch_result_index') {
