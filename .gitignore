@@ -1,25 +1,45 @@
-# CakePHP 3
+#--------------------------#
+# Magento Default Files    #
+#--------------------------#
 
-/vendor/*
-/config/app.php
+/PATCH_*.sh
 
-/tmp/cache/models/*
-!/tmp/cache/models/empty
-/tmp/cache/persistent/*
-!/tmp/cache/persistent/empty
-/tmp/cache/views/*
-!/tmp/cache/views/empty
-/tmp/sessions/*
-!/tmp/sessions/empty
-/tmp/tests/*
-!/tmp/tests/empty
+/app/etc/local.xml
 
-/logs/*
-!/logs/empty
+/media/*
+!/media/.htaccess
 
-# CakePHP 2
+!/media/customer
+/media/customer/*
+!/media/customer/.htaccess
 
-/app/tmp/*
-/app/Config/core.php
-/app/Config/database.php
-/vendors/*
+!/media/dhl
+/media/dhl/*
+!/media/dhl/logo.jpg
+
+!/media/downloadable
+/media/downloadable/*
+!/media/downloadable/.htaccess
+
+!/media/xmlconnect
+/media/xmlconnect/*
+
+!/media/xmlconnect/custom
+/media/xmlconnect/custom/*
+!/media/xmlconnect/custom/ok.gif
+
+!/media/xmlconnect/original
+/media/xmlconnect/original/*
+!/media/xmlconnect/original/ok.gif
+
+!/media/xmlconnect/system
+/media/xmlconnect/system/*
+!/media/xmlconnect/system/ok.gif
+
+/var/*
+!/var/.htaccess
+
+!/var/package
+/var/package/*
+!/var/package/*.xml
+
