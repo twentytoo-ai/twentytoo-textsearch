@@ -1,25 +1,27 @@
 <?php
 
-namespace TwentyToo\TextSearch\Model;
+namespace TwentyToo\TextSearch\Service;
 
-use Magento\Framework\HTTP\Client\Curl;
 use Psr\Log\LoggerInterface;
+use Magento\Framework\HTTP\Client\Curl;
 
-class Api implements ApiInterface
+class ApiService
 {
-    protected $httpClient;
     protected $logger;
+    protected $curl;
 
-    public function __construct(Curl $httpClient, LoggerInterface $logger)
-    {
-        $this->httpClient = $httpClient;
+    public function __construct(
+        LoggerInterface $logger,
+        Curl $curl
+    ) {
         $this->logger = $logger;
+        $this->curl = $curl;
     }
 
-    public function fetchData($query)
+    public function getProductIdsFromApi($query)
     {
         $apiUrl = 'https://apidev.twentytoo.ai/cms/v2/text-search';
-        $payload = [
+        $payload = json_encode([
             'text' => $query,
             'page' => 1,
             'page_limit' => 12,
@@ -28,7 +30,7 @@ class Api implements ApiInterface
                 ['target_audience' => []],
                 ['department' => []]
             ],
-        ];
+        ]);
 
         $headers = [
             'Content-Type' => 'application/json',
@@ -36,11 +38,9 @@ class Api implements ApiInterface
         ];
 
         try {
-            $this->httpClient->addHeader('Content-Type', 'application/json');
-            $this->httpClient->addHeader('x-tt-api-key', '32Z4tGu2GI9zmSPH8aJg06KmAN1ljV0UaOBDOLnp');
-            $this->httpClient->post($apiUrl, json_encode($payload));
-
-            $response = $this->httpClient->getBody();
+            $this->curl->setHeaders($headers);
+            $this->curl->post($apiUrl, $payload);
+            $response = $this->curl->getBody();
             $responseData = json_decode($response, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
